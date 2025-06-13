@@ -1,30 +1,24 @@
 /// <reference types= "cypress"/>
+
 import LoginPage from "../pages/LoginPage";
 import InventoryPage from "../pages/InventoryPage";
-
-describe("Login and Add to Cart Functionality", () => {
+describe("Login, Add to Cart, and Logout Functionality", () => {
   const loginPage = new LoginPage();
   const inventoryPage = new InventoryPage();
-
-  it("should not login using invalid credentials and show an error message when credentials are invalid", () => {
+  beforeEach(() => {
     loginPage.visit();
-    loginPage.login("random_user", "random_password");
   });
-
-  it("should login using valid credentials and redirect to next page ", () => {
-    loginPage.visit();
+  it("should successfully login using valid credentials", () => {
     loginPage.login("standard_user", "secret_sauce");
+    loginPage.assertSuccessfulLogin();
   });
-
-  it("should login and add an item to cart", () => {
-    loginPage.visit();
+  it("should show an error message when login using invalid credentials", () => {
+    loginPage.login("invalid_user", "invalid_password");
+  });
+  it("should add an item to the cart, go to sidebar menu and logout the user", () => {
     loginPage.login("standard_user", "secret_sauce");
+    loginPage.assertSuccessfulLogin();
     inventoryPage.addItemToCart();
-  });
-
-  it("should go to sidebar menu and logout", () => {
-    loginPage.visit();
-    loginPage.login("standard_user", "secret_sauce");
     loginPage.logout();
   });
 });

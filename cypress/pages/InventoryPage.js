@@ -1,4 +1,4 @@
-class InventoryPage {
+export default class InventoryPage {
   addItemToCart() {
     cy.get(".inventory_item").each(($el) => {
       cy.wrap($el)
@@ -11,4 +11,3 @@ class InventoryPage {
     });
   }
 }
-export default InventoryPage;
